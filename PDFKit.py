@@ -1,5 +1,6 @@
 import requests
 import pdfkit
+import os
 
 def fetch_sec_filing_html(ticker, filing_type, output_path):
     # Fetch SEC filing in HTML format
@@ -19,6 +20,7 @@ def convert_html_to_pdf(input_path, output_path):
     print(f"PDF successfully created at: {output_path}")
 
 def main():
+    '''
     ticker = input("Enter stock ticker: ")
     filing_type = input("Enter filing type (e.g., 10-K, 10-Q): ")
     output_html_path = "sec_filing.html"
@@ -26,6 +28,22 @@ def main():
 
     fetch_sec_filing_html(ticker, filing_type, output_html_path)
     convert_html_to_pdf(output_html_path, output_pdf_path)
+    '''
+
+    ticker = input("Enter stock ticker: ")
+    filing_type = input("Enter filing type (e.g., 10-K, 10-Q): ")
+    output_dir = input("Enter the directory path to save files: ")
+
+    # Ensure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Construct absolute file paths
+    output_html_path = os.path.join(output_dir, "sec_filing.html")
+    output_pdf_path = os.path.join(output_dir, "sec_filing.pdf")
+
+    fetch_sec_filing_html(ticker, filing_type, output_html_path)
+    convert_html_to_pdf(output_html_path, output_pdf_path)
+
 
 if __name__ == "__main__":
     main()
